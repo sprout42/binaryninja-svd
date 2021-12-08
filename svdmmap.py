@@ -11,6 +11,7 @@ https://github.com/stm32-rs/stm32-rs/blob/master/scripts/svdmmap.py
 
 import sys
 import copy
+import os.path
 import xml.etree.ElementTree as ET
 
 
@@ -210,8 +211,11 @@ def parse(svdfile):
                 peripherals[periph['derives']]['registers']
             peripherals[pname]['size'] = \
                 peripherals[periph['derives']]['size']
-    return {"name": svdfile.split(b".")[0], "peripherals": peripherals,
-            "interrupts": device_interrupts}
+    return {
+        "name": os.path.splitext(os.path.split(svdfile)[1])[0],
+        "peripherals": peripherals,
+        "interrupts": device_interrupts
+    }
 
 
 def to_text(device):
